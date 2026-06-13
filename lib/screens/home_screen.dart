@@ -14,32 +14,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Data makanan (ganti imagePath dengan asset kamu sendiri)
   final List<Map<String, dynamic>> foods = [
-    {
-      'name': 'Rendang',
-      'description': 'Daging rendang khas Padang dengan bumbu...',
-      'price': 18000.0,
-      'imagePath': 'assets/rendang.png',
-    },
-    {
-      'name': 'Ayam Pop',
-      'description': 'Ayam pop lembut dengan sambal khas Padang.',
-      'price': 17000.0,
-      'imagePath': 'assets/ayam_pop.png',
-    },
-    {
-      'name': 'Dendeng Balado',
-      'description': 'Dendeng sapi dengan balado pedas khas...',
-      'price': 20000.0,
-      'imagePath': 'assets/dendeng.png',
-    },
-    {
-      'name': 'Gulai Tunjang',
-      'description': 'Tunjang sapi dengan kuah gulai kental...',
-      'price': 22000.0,
-      'imagePath': 'assets/tunjang.png',
-    },
-  ];
-
+  {
+    'name': 'Rendang',
+    'description': 'Daging rendang khas Padang dengan bumbu...',
+    'price': 18000.0,
+    'imagePath': 'assets/rendang.png',
+  },
+  {
+    'name': 'Ayam Pop',
+    'description': 'Ayam pop lembut dengan sambal khas Padang.',
+    'price': 17000.0,
+    'imagePath': 'assets/ayam_pop.png',
+  },
+  {
+    'name': 'Dendeng Balado',
+    'description': 'Dendeng sapi dengan balado pedas khas...',
+    'price': 20000.0,
+    'imagePath': 'assets/dendeng_balado.png',
+  },
+  {
+    'name': 'Gulai Tunjang',
+    'description': 'Tunjang sapi dengan kuah gulai kental...',
+    'price': 22000.0,
+    'imagePath': 'assets/gulai_tunjang.png',
+  },
+];
   void addToCart(String name, double price) {
     setState(() {
       cart.add(
@@ -311,24 +310,55 @@ class PromoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = '';
+
+    if (title == 'Wednesday Feast') {
+      imagePath = 'assets/wednesday_feast.png';
+    } else if (title == 'Flash Sale') {
+      imagePath = 'assets/flash_sale.png';
+    } else {
+      imagePath = 'assets/great_offers.png';
+    }
+
     return Container(
       width: 140,
       margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Align(
-        alignment: Alignment.bottomLeft,
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              imagePath,
+              width: 140,
+              height: 180,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+
+          Container(
+            width: 140,
+            height: 180,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.black54,
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/food.dart';
-
+import '../models/order_data.dart';
 class CartScreen extends StatelessWidget {
   final List<Food> cartItems;
 
@@ -105,21 +105,28 @@ class CartScreen extends StatelessWidget {
                                       },
                                       child: const Text('Batal'),
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
+                                   ElevatedButton(
+  onPressed: () {
 
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Pembayaran Berhasil 🎉',
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text('Bayar'),
-                                    ),
+    // Masukkan isi keranjang ke daftar pesanan
+    OrderData.orders.addAll(cartItems);
+
+    // Tutup dialog
+    Navigator.pop(context);
+
+    // Tutup halaman keranjang
+    Navigator.pop(context);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Pembayaran Berhasil 🎉',
+        ),
+      ),
+    );
+  },
+  child: const Text('Bayar'),
+),
                                   ],
                                 );
                               },

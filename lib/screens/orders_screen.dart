@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/order_data.dart';
+import 'order_detail_screen.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -10,51 +12,64 @@ class OrdersScreen extends StatelessWidget {
         title: const Text("Pesanan Saya"),
         backgroundColor: Colors.amber,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          orderCard(
-            "Ayam Geprek",
-            "Rp 12.000",
-            "Selesai",
-            Colors.green,
-          ),
-          orderCard(
-            "Pizza Galaxi",
-            "Rp 15.000",
-            "Diproses",
-            Colors.orange,
-          ),
-          orderCard(
-            "Momoyo",
-            "Rp 9.000",
-            "Dikirim",
-            Colors.blue,
-          ),
-        ],
-      ),
-    );
-  }
+      body: OrderData.orders.isEmpty
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.receipt_long,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Belum ada pesanan",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: OrderData.orders.length,
+              itemBuilder: (context, index) {
+                final food = OrderData.orders[index];
 
-  Widget orderCard(
-    String title,
-    String price,
-    String status,
-    Color color,
-  ) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: const CircleAvatar(
-          child: Icon(Icons.fastfood),
-        ),
-        title: Text(title),
-        subtitle: Text(price),
-        trailing: Chip(
-          label: Text(status),
-          backgroundColor: color.withOpacity(0.2),
-        ),
-      ),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => OrderDetailScreen(
+                          name: food.name,
+                          price: food.price,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: ListTile(
+                      leading: const CircleAvatar(
+                        child: Icon(Icons.fastfood),
+                      ),
+                      title: Text(food.name),
+                      subtitle: Text(
+                        'Rp ${food.price.toStringAsFixed(0)}',
+                      ),
+                      trailing: Chip(
+                        label: const Text("Diproses"),
+                        backgroundColor: Colors.orange.shade100,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

@@ -14,18 +14,17 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
 
-  final List<Widget> pages = const [
-    HomeScreen(),
-    ExploreScreen(),
-    OrdersScreen(),
-    AccountScreen(),
-  ];
+  List<Widget> get pages => const [
+        HomeScreen(),
+        ExploreScreen(),
+        OrdersScreen(),
+        AccountScreen(),
+      ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         selectedItemColor: Colors.amber,
